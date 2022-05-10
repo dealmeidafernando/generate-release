@@ -1,0 +1,37 @@
+{
+  "name": "generate-release",
+  "version": "1.0.0",
+  "description": "",
+  "main": "jest.config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test:unit": "jest --no-cache",
+    "build": "rm -rf dist && tsc -p tsconfig.build.json",
+    "semantic-release": "semantic-release"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dealmeidafernando/generate-release.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dealmeidafernando/generate-release/issues"
+  },
+  "homepage": "https://github.com/dealmeidafernando/generate-release#readme",
+  "devDependencies": {
+    "@types/jest": "^27.0.1",
+    "jest": "^25.1.0",
+    "ts-jest": "^25.2.0",
+    "typescript": "^3.7.5"
+  },
+  "dependencies": {
+    "@semantic-release/commit-analyzer": "^9.0.2",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^8.0.4",
+    "@semantic-release/release-notes-generator": "^10.0.3",
+    "semantic-release": "^19.0.2"
+  }
+}

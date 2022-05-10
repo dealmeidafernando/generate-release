@@ -1,0 +1,26 @@
+name: production
+
+on:
+  push:
+    branches:
+      - 'master'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: Resolve dependencies
+        run: npm install --production
+
+      - name: Publish new release
+        run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
