@@ -18,7 +18,7 @@ jobs:
           node-version: 14
 
       - name: Resolve dependencies
-        run: npm ci
+        run: npm install
 
       - name: Echo
         run: echo "$GITHUB_TOKEN"
