@@ -18,10 +18,7 @@ jobs:
           node-version: 16
 
       - name: Resolve dependencies
-        run: npm install --production
-
-      - name: Set environment
-        run: cp .env.example .env
+        run: npm install
 
       - name: Unit tests
         run: npm run test:unit
