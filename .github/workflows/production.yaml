@@ -23,6 +23,6 @@ jobs:
       - name: Publish new release
         run: npx semantic-release --no-ci --debug
         env:
-          GITHUB_TOKEN: ${{ secrets.COMMIT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
