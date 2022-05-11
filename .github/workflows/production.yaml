@@ -15,13 +15,14 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
+          cache: npm
           node-version: 14
 
       - name: Resolve dependencies
-        run: npm install
+        run: npm ci
 
       - name: Echo
-        run: echo $GITHUB_TOKEN
+        run: echo "$GITHUB_TOKEN"
         env:
           GITHUB_TOKEN: ${{ secrets.COMMIT }}
 
