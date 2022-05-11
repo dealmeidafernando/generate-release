@@ -21,7 +21,7 @@ jobs:
         run: npm install
 
       - name: Echo
-        run: echo GITHUB_TOKEN
+        run: echo $GITHUB_TOKEN
         env:
           GITHUB_TOKEN: ${{ secrets.COMMIT }}
 
