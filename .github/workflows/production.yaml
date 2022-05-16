@@ -41,19 +41,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - uses: actions/download-artifact@v2
-        name: Download image artifact
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
         with:
-          name: image-candidate
+          node-version: 14
 
-      - name: Load image
-        run: docker load --input ./image
-
-      - name: Start Image
-        run: docker run --rm --tty --entrypoint /bin/bash --name ${{ env.CONTAINER_NAME }} --detach ${{ env.REPOSITORY_NAME }}:candidate
+      - name: Install semanti-release global
+        run: npm i -g semantic-release
 
       - name: Publish new release
-        run: docker exec -i ${{ env.CONTAINER_NAME }} npx semantic-release
+        run: semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
