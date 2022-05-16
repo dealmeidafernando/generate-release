@@ -46,8 +46,8 @@ jobs:
         with:
           node-version: 14
 
-      - name: Install semanti-release global
-        run: npm i -g semantic-release
+      - name: Install dependencies
+        run: npm i -g semantic-release @semantic-release/commit-analyzer @semantic-release/release-notes-generator @semantic-release/github @semantic-release/git
 
       - name: Publish new release
         run: semantic-release
