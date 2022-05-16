@@ -5,22 +5,62 @@ on:
     branches:
       - 'master'
 
+env:
+  REPOSITORY_NAME: "generate-release"
+  CONTAINER_NAME: "generate_release_build_container"
+  DOCKER_FILE: "./Dockerfile"
+
 jobs:
-  publish:
+  build:
     runs-on: ubuntu-latest
+    name: Image build
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+    - name: Checkout
+      uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
+    - name: Build the tagged Docker image
+      run: docker build --no-cache -t ${{ env.REPOSITORY_NAME }}:candidate -f ${{ env.DOCKER_FILE }} .
+
+    - name: Save image
+      run: docker save ${{ env.REPOSITORY_NAME }}:candidate -o image
+
+    - name: Upload image as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: image-candidate
+        path: ./image
+        retention-days: 1
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    name: Publish with semanti-release
+
+    steps:
+      - uses: actions/download-artifact@v2
+        name: Download image artifact
         with:
-          node-version: 14
+          name: image-candidate
 
-      - name: Resolve dependencies
-        run: npm install
+      - name: Load image
+        run: docker load --input ./image
+
+      # - name: Checkout
+      #   uses: actions/checkout@v3
+
+      # - name: Setup Node.js
+      #   uses: actions/setup-node@v2
+      #   with:
+      #     node-version: 14
+
+      # - name: Resolve dependencies
+      #   run: npm install
+
+      - name: Start Image
+        run: docker run --rm --tty --entrypoint /bin/bash --name ${{ env.CONTAINER_NAME }} --detach ${{ env.REPOSITORY_NAME }}:candidate
 
       - name: Publish new release
-        run: npx semantic-release
+        run: docker exec -i ${{ env.CONTAINER_NAME }}:candidate npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
