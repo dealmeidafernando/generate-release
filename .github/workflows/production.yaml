@@ -61,6 +61,6 @@ jobs:
         run: docker run --rm --tty --entrypoint /bin/bash --name ${{ env.CONTAINER_NAME }} --detach ${{ env.REPOSITORY_NAME }}:candidate
 
       - name: Publish new release
-        run: docker exec -i ${{ env.CONTAINER_NAME }}:candidate npx semantic-release
+        run: docker exec -i ${{ env.CONTAINER_NAME }} npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
