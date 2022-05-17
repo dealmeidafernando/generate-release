@@ -5,33 +5,7 @@ on:
     branches:
       - 'master'
 
-env:
-  REPOSITORY_NAME: "generate-release"
-  CONTAINER_NAME: "generate_release_build_container"
-  DOCKER_FILE: "./Dockerfile"
-
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    name: Image build
-
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-
-    - name: Build the tagged Docker image
-      run: docker build --no-cache -t ${{ env.REPOSITORY_NAME }}:candidate -f ${{ env.DOCKER_FILE }} .
-
-    - name: Save image
-      run: docker save ${{ env.REPOSITORY_NAME }}:candidate -o image
-
-    - name: Upload image as artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: image-candidate
-        path: ./image
-        retention-days: 1
-
   publish:
     needs: build
     runs-on: ubuntu-latest
