@@ -1,0 +1,15 @@
+name: Add label on pull request
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  Add-label-on-pull-request:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add label on pull request
+        uses: dealmeidafernando/labeler
+        with:
+          membersTeam1: dealmeidafernando
+          labelTeam1: compete
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
